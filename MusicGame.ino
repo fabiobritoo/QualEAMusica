@@ -94,6 +94,25 @@
 #define REST      0
 
 int seconds = 0;
+int tempo = 100;
+int melody[30];
+String nome_musica = "";
+
+int musica1[] = { //15 Notas
+  NOTE_C5,4, NOTE_G4,8, NOTE_AS4,4, NOTE_A4,8,
+  NOTE_G4,16, NOTE_C4,8, NOTE_C4,16, NOTE_G4,16, NOTE_G4,8, NOTE_G4,16,
+  NOTE_C5,4, NOTE_G4,8, NOTE_AS4,4, NOTE_A4,8,
+  NOTE_G4,2
+};  
+
+int musica2[] = { //15 Notas
+  NOTE_AS4,-2,  NOTE_F4,8,  NOTE_F4,8,  NOTE_AS4,8,//1
+  NOTE_GS4,16,  NOTE_FS4,16,  NOTE_GS4,-2,
+  NOTE_AS4,-2,  NOTE_FS4,8,  NOTE_FS4,8,  NOTE_AS4,8,
+  NOTE_A4,16,  NOTE_G4,16,  NOTE_A4,-2,
+  REST,1
+};  
+
 int buzzer = 11;
 
 Adafruit_LiquidCrystal lcd(0);
@@ -104,6 +123,7 @@ void setup()
   
   // Intro
   
+  /*
   lcd.begin(16, 2);
   lcd.setBacklight(1);
   lcd.clear();
@@ -111,162 +131,47 @@ void setup()
   escrever("Qual e a musica?",1);
   piscar_tela(100,3);
   lcd.clear();
+  */
+  Serial.begin(9600);
   
   //Inicio do Jogo
-  escolher_musica(2); 
+  escolher_musica(1); 
     
   
 }
 
 void loop()
 {
-  
+  escolher_musica(2); 
+  delay(2000);
   	
 }
 
+
+// Function to copy 'len' elements from 'src' to 'dst'
+void copy(int* src, int* dst, int len) {
+    memcpy(dst, src, sizeof(src[0])*len);
+}
 
 void escolher_musica(int musica)
 {   
   
   if (musica == 1) {
-    int tempo = 100;
-    int melody[] = {
-      NOTE_C5,4, NOTE_G4,8, NOTE_AS4,4, NOTE_A4,8,
-      NOTE_G4,16, NOTE_C4,8, NOTE_C4,16, NOTE_G4,16, NOTE_G4,8, NOTE_G4,16,
-      NOTE_C5,4, NOTE_G4,8, NOTE_AS4,4, NOTE_A4,8,
-      NOTE_G4,2
-    };  
-    
-    int notes = sizeof(melody) / sizeof(melody[0]) / 2;
-
-    // this calculates the duration of a whole note in ms
-    int wholenote = (60000 * 4) / tempo;
-
-    int divider = 0, noteDuration = 0;  
-
-    // iterate over the notes of the melody.
-    // Remember, the array is twice the number of notes (notes + durations)
-    for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
-
-      // calculates the duration of each note
-      divider = melody[thisNote + 1];
-      if (divider > 0) {
-        // regular note, just proceed
-        noteDuration = (wholenote) / divider;
-      } else if (divider < 0) {
-        // dotted notes are represented with negative durations!!
-        noteDuration = (wholenote) / abs(divider);
-        noteDuration *= 1.5; // increases the duration in half for dotted notes
-      }
-      
-      // we only play the note for 90% of the duration, leaving 10% as a pause
-      tone(buzzer, melody[thisNote], noteDuration * 0.9);
-
-      // Wait for the specief duration before playing the next note.
-      delay(noteDuration);
-
-      // stop the waveform generation before the next note.
-      noTone(buzzer);
-    } 
-      
-    tocar_musica(tempo, melody);
+    tempo = 100;
+    nome_musica = "Sonic";
+    copy(musica1, melody, 5);      
   }
   else { 
-    int tempo = 88;
-    int melody[] = {
-     NOTE_AS4,-2,  NOTE_F4,8,  NOTE_F4,8,  NOTE_AS4,8,//1
-    NOTE_GS4,16,  NOTE_FS4,16,  NOTE_GS4,-2,
-    NOTE_AS4,-2,  NOTE_FS4,8,  NOTE_FS4,8,  NOTE_AS4,8,
-    NOTE_A4,16,  NOTE_G4,16,  NOTE_A4,-2,
-    REST,1
-    };  
-    
-    int notes = sizeof(melody) / sizeof(melody[0]) / 2;
-
-    // this calculates the duration of a whole note in ms
-    int wholenote = (60000 * 4) / tempo;
-
-    int divider = 0, noteDuration = 0;  
-
-    // iterate over the notes of the melody.
-    // Remember, the array is twice the number of notes (notes + durations)
-    for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
-
-      // calculates the duration of each note
-      divider = melody[thisNote + 1];
-      if (divider > 0) {
-        // regular note, just proceed
-        noteDuration = (wholenote) / divider;
-      } else if (divider < 0) {
-        // dotted notes are represented with negative durations!!
-        noteDuration = (wholenote) / abs(divider);
-        noteDuration *= 1.5; // increases the duration in half for dotted notes
-      }
-      
-      // we only play the note for 90% of the duration, leaving 10% as a pause
-      tone(buzzer, melody[thisNote], noteDuration * 0.9);
-
-      // Wait for the specief duration before playing the next note.
-      delay(noteDuration);
-
-      // stop the waveform generation before the next note.
-      noTone(buzzer);
-    } 
-      
-    tocar_musica(tempo, melody);
+    tempo = 88;
+    nome_musica = "Mario";
+    copy(musica2, melody, 5);     
   }
-  //Serial.print(tempo);
+
+  Serial.println("Melodia Inicial:" + String(melody[0]));
+  Serial.println("Tempo:" + String(tempo));
+  Serial.println("Nome:" + nome_musica);
   
 }
-
-void tocar_musica(int tempo, int melody[])
-{
- Serial.println(sizeof(melody));
-  // sizeof gives the number of bytes, each int value is composed of two bytes (16 bits)
-    // there are two values per note (pitch and duration), so for each note there are four bytes
- int notes = sizeof(melody) / sizeof(melody[0]) / 2;
- 
-  Serial.println(notes);
-  
-
-    // this calculates the duration of a whole note in ms
-    int wholenote = (60000 * 4) / tempo;
-
-    int divider = 0, noteDuration = 0;  
-
-    // iterate over the notes of the melody.
-    // Remember, the array is twice the number of notes (notes + durations)
-    for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
-
-      // calculates the duration of each note
-      divider = melody[thisNote + 1];
-      if (divider > 0) {
-        // regular note, just proceed
-        noteDuration = (wholenote) / divider;
-      } else if (divider < 0) {
-        // dotted notes are represented with negative durations!!
-        noteDuration = (wholenote) / abs(divider);
-        noteDuration *= 1.5; // increases the duration in half for dotted notes
-      }
-
-	
-       Serial.print(buzzer);
-       Serial.print(noteDuration);
-       Serial.print(melody[thisNote]);
-      
-      // we only play the note for 90% of the duration, leaving 10% as a pause
-      tone(buzzer, melody[thisNote], noteDuration * 0.9);
-
-      // Wait for the specief duration before playing the next note.
-      delay(noteDuration);
-
-      // stop the waveform generation before the next note.
-      noTone(buzzer);
-
-    }
-}
-
-
 
 void escrever (String text, int pos)
 {
