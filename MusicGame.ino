@@ -93,6 +93,14 @@
 #define NOTE_DS8 4978
 #define REST      0
 
+
+// Variáveis da Música
+int notes = 0;
+// this calculates the duration of a whole note in ms
+int wholenote = 0;
+int divider = 0, noteDuration = 0;
+
+
 int seconds = 0;
 int tempo = 100;
 int melody[30];
@@ -106,6 +114,8 @@ int musica1[] = { //15 Notas
   NOTE_C5,4, NOTE_G4,8, NOTE_AS4,4, NOTE_A4,8,
   NOTE_G4,2
 };  
+
+
 
 int musica2[] = { //15 Notas
   NOTE_AS4,-2,  NOTE_F4,8,  NOTE_F4,8,  NOTE_AS4,8,//1
@@ -149,7 +159,6 @@ void loop()
 
 }
 
-
 // Function to copy 'len' elements from 'src' to 'dst'
 void copy(int* src, int* dst, int len) {
     memcpy(dst, src, sizeof(src[0])*len);
@@ -169,22 +178,52 @@ void escolher_musica(int musica)
     copy(musica2, melody, 30);     
   }
 
-  Serial.println("Posição da Música:" + String(musica));
-  Serial.println("Melodia Inicial:" + String(melody[0]));
-  Serial.println("Tempo:" + String(tempo));
-  Serial.println("Nome:" + nome_musica);
+  notes = sizeof(melody) / sizeof(melody[0]) / 2;
 
-  tocar_musica(melody, tempo, nome_musica);
+  tocar_musica(notes, melody, tempo, nome_musica);
   
 }
 
-
-void tocar_musica(int melody[], int tempo, String nome_musica)
+void tocar_musica(int notes, int melody[], int tempo, String nome_musica)
 {
  
-  Serial.println("Melodia Inicial:" + String(melody[0]));
+  Serial.println("Nome:" + nome_musica);
+  /*Serial.println("Melodia Inicial:" + String(melody[0])); 
   Serial.println("Tempo:" + String(tempo));
   Serial.println("Nome:" + nome_musica);
+  Serial.println("Notes:" + String(notes));  */
+
+  wholenote = (60000 * 4) / tempo;
+  divider = 0;
+  noteDuration = 0;
+
+  for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
+
+    // calculates the duration of each note
+
+    Serial.println("Nota:" + String(melody[thisNote]));
+    Serial.println("Duracao:" + String(melody[thisNote + 1]));
+
+    divider = melody[thisNote + 1];
+    if (divider > 0) {
+      // regular note, just proceed
+      noteDuration = (wholenote) / divider;
+    } else if (divider < 0) {
+      // dotted notes are represented with negative durations!!
+      noteDuration = (wholenote) / abs(divider);
+      noteDuration *= 1.5; // increases the duration in half for dotted notes
+    }
+
+    // we only play the note for 90% of the duration, leaving 10% as a pause
+    tone(buzzer, melody[thisNote], noteDuration * 0.9);
+
+    // Wait for the specief duration before playing the next note.
+    delay(noteDuration);
+
+    // stop the waveform generation before the next note.
+    noTone(buzzer);
+  }
+
 
 }
 
