@@ -96,6 +96,8 @@
 int seconds = 0;
 int tempo = 100;
 int melody[30];
+int numero_musica = random(1,2);
+
 String nome_musica = "";
 
 int musica1[] = { //15 Notas
@@ -132,19 +134,19 @@ void setup()
   piscar_tela(100,3);
   lcd.clear();
   */
-  Serial.begin(9600);
   
   //Inicio do Jogo
-  escolher_musica(1); 
+  // escolher_musica(random(2)); 
     
   
 }
 
 void loop()
 {
-  escolher_musica(2); 
-  delay(2000);
-  	
+  numero_musica = random(1,3);
+  escolher_musica(numero_musica); 
+  delay(2000);  	
+
 }
 
 
@@ -159,18 +161,31 @@ void escolher_musica(int musica)
   if (musica == 1) {
     tempo = 100;
     nome_musica = "Sonic";
-    copy(musica1, melody, 5);      
+    copy(musica1, melody, 30);      
   }
   else { 
     tempo = 88;
     nome_musica = "Mario";
-    copy(musica2, melody, 5);     
+    copy(musica2, melody, 30);     
   }
 
+  Serial.println("Posição da Música:" + String(musica));
   Serial.println("Melodia Inicial:" + String(melody[0]));
   Serial.println("Tempo:" + String(tempo));
   Serial.println("Nome:" + nome_musica);
+
+  tocar_musica(melody, tempo, nome_musica);
   
+}
+
+
+void tocar_musica(int melody[], int tempo, String nome_musica)
+{
+ 
+  Serial.println("Melodia Inicial:" + String(melody[0]));
+  Serial.println("Tempo:" + String(tempo));
+  Serial.println("Nome:" + nome_musica);
+
 }
 
 void escrever (String text, int pos)
