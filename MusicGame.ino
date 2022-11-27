@@ -1,6 +1,6 @@
 // C++ code
 //
-#include <Adafruit_LiquidCrystal.h>
+#include <LiquidCrystal_I2C.h>
 
 #define NOTE_B0  31
 #define NOTE_C1  33
@@ -94,6 +94,15 @@
 #define REST      0
 
 
+// DEFINIÇÕES
+#define endereco  0x27 // Endereços comuns: 0x27, 0x3F
+#define colunas   16
+#define linhas    2
+
+
+const int quantidade_notas = 100;
+
+
 // Variáveis da Música
 int notes = 0;
 // this calculates the duration of a whole note in ms
@@ -101,33 +110,47 @@ int wholenote = 0;
 int divider = 0, noteDuration = 0;
 
 
+
 int seconds = 0;
 int tempo = 100;
-int melody[30];
+int melody[quantidade_notas];
 int numero_musica = random(1,2);
 
 String nome_musica = "";
 
-int musica1[] = { //15 Notas
-  NOTE_C5,4, NOTE_G4,8, NOTE_AS4,4, NOTE_A4,8,
-  NOTE_G4,16, NOTE_C4,8, NOTE_C4,16, NOTE_G4,16, NOTE_G4,8, NOTE_G4,16,
-  NOTE_C5,4, NOTE_G4,8, NOTE_AS4,4, NOTE_A4,8,
-  NOTE_G4,2
+int musica_sonic[] = { //15 Notas
+  REST,2, NOTE_D5,8, NOTE_B4,4, NOTE_D5,8, //1
+  NOTE_CS5,4, NOTE_D5,8, NOTE_CS5,4, NOTE_A4,2, 
+  REST,8, NOTE_A4,8, NOTE_FS5,8, NOTE_E5,4, NOTE_D5,8,
+  NOTE_CS5,4, NOTE_D5,8, NOTE_CS5,4, NOTE_A4,2, 
+  REST,4, NOTE_D5,8, NOTE_B4,4, NOTE_D5,8,
+  NOTE_CS5,4, NOTE_D5,8, NOTE_CS5,4, NOTE_A4,2, 
+
+  REST,8, NOTE_B4,8, NOTE_B4,8, NOTE_G4,4, NOTE_B4,8, //7
+  NOTE_A4,4, NOTE_B4,8, NOTE_A4,4, NOTE_D4,2,
+  REST,4, NOTE_D5,8, NOTE_B4,4, NOTE_D5,8,
+  NOTE_CS5,4, NOTE_D5,8, NOTE_CS5,4, NOTE_A4,2, 
+  REST,8, NOTE_A4,8, NOTE_FS5,8, NOTE_E5,4, NOTE_D5,8,
+  NOTE_CS5,4, NOTE_D5,8, NOTE_CS5,4, NOTE_A4,2
 };  
 
 
-
-int musica2[] = { //15 Notas
-  NOTE_AS4,-2,  NOTE_F4,8,  NOTE_F4,8,  NOTE_AS4,8,//1
-  NOTE_GS4,16,  NOTE_FS4,16,  NOTE_GS4,-2,
-  NOTE_AS4,-2,  NOTE_FS4,8,  NOTE_FS4,8,  NOTE_AS4,8,
-  NOTE_A4,16,  NOTE_G4,16,  NOTE_A4,-2,
-  REST,1
+int musica_mario[] = { //15 Notas
+  NOTE_E5,8, NOTE_E5,8, REST,8, NOTE_E5,8, REST,8, NOTE_C5,8, NOTE_E5,8, //1
+  NOTE_G5,4, REST,4, NOTE_G4,8, REST,4, 
+  NOTE_C5,-4, NOTE_G4,8, REST,4, NOTE_E4,-4, // 3
+  NOTE_A4,4, NOTE_B4,4, NOTE_AS4,8, NOTE_A4,4,
+  NOTE_G4,-8, NOTE_E5,-8, NOTE_G5,-8, NOTE_A5,4, NOTE_F5,8, NOTE_G5,8,
+  REST,8, NOTE_E5,4,NOTE_C5,8, NOTE_D5,8, NOTE_B4,-4,
+  NOTE_C5,-4, NOTE_G4,8, REST,4, NOTE_E4,-4, // repeats from 3
+  NOTE_A4,4, NOTE_B4,4, NOTE_AS4,8, NOTE_A4,4,
+  NOTE_G4,-8, NOTE_E5,-8, NOTE_G5,-8, NOTE_A5,4, NOTE_F5,8, NOTE_G5,8,
+  REST,8, NOTE_E5,4,NOTE_C5,8, NOTE_D5,8, NOTE_B4,-4
 };  
 
-int buzzer = 11;
+int buzzer = 8;
 
-Adafruit_LiquidCrystal lcd(0);
+LiquidCrystal_I2C lcd(endereco, colunas, linhas);
 
 void setup()
 {
@@ -135,15 +158,16 @@ void setup()
   
   // Intro
   
-  /*
-  lcd.begin(16, 2);
-  lcd.setBacklight(1);
+  
+  lcd.init();
+  lcd.backlight();
   lcd.clear();
   escrever("Jogo",0);
   escrever("Qual e a musica?",1);
+  delay(3000);
   piscar_tela(100,3);
   lcd.clear();
-  */
+  
   
   //Inicio do Jogo
   // escolher_musica(random(2)); 
@@ -152,10 +176,12 @@ void setup()
 }
 
 void loop()
-{
+{ 
+
   numero_musica = random(1,3);
   escolher_musica(numero_musica); 
-  delay(2000);  	
+
+  delay(2000); 
 
 }
 
@@ -170,15 +196,18 @@ void escolher_musica(int musica)
   if (musica == 1) {
     tempo = 100;
     nome_musica = "Sonic";
-    copy(musica1, melody, 30);      
+    copy(musica_sonic, melody, quantidade_notas);      
   }
   else { 
-    tempo = 88;
+    tempo = 150;
     nome_musica = "Mario";
-    copy(musica2, melody, 30);     
+    copy(musica_mario, melody, quantidade_notas);     
   }
 
   notes = sizeof(melody) / sizeof(melody[0]) / 2;
+
+  escrever("a) " + nome_musica,0);
+  escrever("b) Sonic",1);
 
   tocar_musica(notes, melody, tempo, nome_musica);
   
@@ -200,9 +229,6 @@ void tocar_musica(int notes, int melody[], int tempo, String nome_musica)
   for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
 
     // calculates the duration of each note
-
-    Serial.println("Nota:" + String(melody[thisNote]));
-    Serial.println("Duracao:" + String(melody[thisNote + 1]));
 
     divider = melody[thisNote + 1];
     if (divider > 0) {
@@ -231,15 +257,16 @@ void escrever (String text, int pos)
 {
   lcd.setCursor(0, pos);
   lcd.print(text);
+  delay(1000);
 }
 
 void piscar_tela(int wait_time, int times)
 {
   for (int i = 1; i<=times; i++)
   {
-    lcd.setBacklight(0);
+    lcd.noBacklight();
     delay(wait_time); // Wait for 500 millisecond(s)
-    lcd.setBacklight(1);
+    lcd.backlight();
     delay(wait_time); // Wait for 500 millisecond(s)
   }
 }
