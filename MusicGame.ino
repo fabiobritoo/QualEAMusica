@@ -114,9 +114,13 @@ int divider = 0, noteDuration = 0;
 int seconds = 0;
 int tempo = 100;
 int melody[quantidade_notas];
-int numero_musica = random(1,2);
+
 
 String nome_musica = "";
+
+String nomes_musicas[] = {"Sonic", "Mario","Tetris"};
+int quantidade_musicas = 3;
+int numero_musica = random(0,quantidade_musicas);
 
 int musica_sonic[] = { //15 Notas
   REST,2, NOTE_D5,8, NOTE_B4,4, NOTE_D5,8, //1
@@ -148,6 +152,28 @@ int musica_mario[] = { //15 Notas
   REST,8, NOTE_E5,4,NOTE_C5,8, NOTE_D5,8, NOTE_B4,-4
 };  
 
+int musica_tetris[] = { //15 Notas
+  NOTE_E5, 4,  NOTE_B4,8,  NOTE_C5,8,  NOTE_D5,4,  NOTE_C5,8,  NOTE_B4,8,
+  NOTE_A4, 4,  NOTE_A4,8,  NOTE_C5,8,  NOTE_E5,4,  NOTE_D5,8,  NOTE_C5,8,
+  NOTE_B4, -4,  NOTE_C5,8,  NOTE_D5,4,  NOTE_E5,4,
+  NOTE_C5, 4,  NOTE_A4,4,  NOTE_A4,8,  NOTE_A4,4,  NOTE_B4,8,  NOTE_C5,8,
+
+  NOTE_D5, -4,  NOTE_F5,8,  NOTE_A5,4,  NOTE_G5,8,  NOTE_F5,8,
+  NOTE_E5, -4,  NOTE_C5,8,  NOTE_E5,4,  NOTE_D5,8,  NOTE_C5,8,
+  NOTE_B4, 4,  NOTE_B4,8,  NOTE_C5,8,  NOTE_D5,4,  NOTE_E5,4,
+  NOTE_C5, 4,  NOTE_A4,4,  NOTE_A4,4, REST, 4,
+
+  NOTE_E5, 4,  NOTE_B4,8,  NOTE_C5,8,  NOTE_D5,4,  NOTE_C5,8,  NOTE_B4,8,
+  NOTE_A4, 4,  NOTE_A4,8,  NOTE_C5,8,  NOTE_E5,4,  NOTE_D5,8,  NOTE_C5,8,
+  NOTE_B4, -4,  NOTE_C5,8,  NOTE_D5,4,  NOTE_E5,4,
+  NOTE_C5, 4,  NOTE_A4,4,  NOTE_A4,8,  NOTE_A4,4,  NOTE_B4,8,  NOTE_C5,8,
+
+  NOTE_D5, -4,  NOTE_F5,8,  NOTE_A5,4,  NOTE_G5,8,  NOTE_F5,8,
+  NOTE_E5, -4,  NOTE_C5,8,  NOTE_E5,4,  NOTE_D5,8,  NOTE_C5,8,
+  NOTE_B4, 4,  NOTE_B4,8,  NOTE_C5,8,  NOTE_D5,4,  NOTE_E5,4,
+  NOTE_C5, 4,  NOTE_A4,4,  NOTE_A4,4, REST, 4
+};  
+
 int buzzer = 8;
 
 LiquidCrystal_I2C lcd(endereco, colunas, linhas);
@@ -168,7 +194,7 @@ void setup()
   piscar_tela(100,3);
   lcd.clear();
   
-  
+  Serial.println("Inicio");
   //Inicio do Jogo
   // escolher_musica(random(2)); 
     
@@ -177,8 +203,9 @@ void setup()
 
 void loop()
 { 
-
-  numero_musica = random(1,3);
+  Serial.println("Entrou no loop");
+  numero_musica = random(0,quantidade_musicas);
+  Serial.println("Musica: " + String(numero_musica));
   escolher_musica(numero_musica); 
 
   delay(2000); 
@@ -192,22 +219,51 @@ void copy(int* src, int* dst, int len) {
 
 void escolher_musica(int musica)
 {   
-  
-  if (musica == 1) {
-    tempo = 100;
-    nome_musica = "Sonic";
+  Serial.println("Entrou no escolher musica");
+  nome_musica = nomes_musicas[musica];
+  Serial.println("Nome: " + nome_musica);
+
+  if (musica == 0) {
+    tempo = 100;    
     copy(musica_sonic, melody, quantidade_notas);      
   }
+  else if (musica == 1) {
+    tempo = 150;    
+    copy(musica_mario, melody, quantidade_notas);      
+  }
+  else if (musica == 2) {
+    tempo = 144;    
+    copy(musica_tetris, melody, quantidade_notas);      
+  }
   else { 
-    tempo = 150;
-    nome_musica = "Mario";
+    tempo = 150;    
     copy(musica_mario, melody, quantidade_notas);     
   }
 
   notes = sizeof(melody) / sizeof(melody[0]) / 2;
 
-  escrever("a) " + nome_musica,0);
-  escrever("b) Sonic",1);
+  // Decidir a outra resposta
+  int nome_errado = random(0,quantidade_musicas);
+  Serial.println("Nome Errado Inicial: " + String(nome_errado));
+
+  while (nome_errado == musica){
+    nome_errado = random(0,quantidade_musicas);
+  }
+  // Decidir se a resposta fica na posição a ou b
+
+  Serial.println("Pos Nome Errado: " + String(nome_errado));
+  Serial.println("Nome Errado: " + nomes_musicas[nome_errado]);
+
+  int pos = random(0,2);
+
+  if (pos == 1){
+    escrever("a) " + nome_musica,0);
+    escrever("b) " + nomes_musicas[nome_errado],1);
+    // escrever("b) Sonic",1);
+  } else{
+    escrever("a) " + nomes_musicas[nome_errado],0);
+    escrever("b) " + nome_musica,1);
+  }  
 
   tocar_musica(notes, melody, tempo, nome_musica);
   
