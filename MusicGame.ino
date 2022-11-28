@@ -101,6 +101,13 @@
 
 
 const int quantidade_notas = 100;
+const int buttonAPin = 4;
+const int buttonBPin = 2;
+
+// variables will change:
+int buttonAState = 0;         // variable for reading the pushbutton status
+int buttonBState = 0;         // variable for reading the pushbutton status
+
 
 
 // Variáveis da Música
@@ -108,7 +115,6 @@ int notes = 0;
 // this calculates the duration of a whole note in ms
 int wholenote = 0;
 int divider = 0, noteDuration = 0;
-
 
 
 int seconds = 0;
@@ -181,6 +187,9 @@ LiquidCrystal_I2C lcd(endereco, colunas, linhas);
 void setup()
 {
   Serial.begin(9600);
+  // initialize the pushbutton pin as an input:
+  pinMode(buttonAPin, INPUT);
+  pinMode(buttonBPin, INPUT);
   
   // Intro
   
@@ -203,9 +212,9 @@ void setup()
 
 void loop()
 { 
-  Serial.println("Entrou no loop");
+  // Serial.println("Entrou no loop");
   numero_musica = random(0,quantidade_musicas);
-  Serial.println("Musica: " + String(numero_musica));
+  // Serial.println("Musica: " + String(numero_musica));
   escolher_musica(numero_musica); 
 
   delay(2000); 
@@ -220,9 +229,9 @@ void copy(int* src, int* dst, int len) {
 
 void escolher_musica(int musica)
 {   
-  Serial.println("Entrou no escolher musica");
+  // Serial.println("Entrou no escolher musica");
   nome_musica = nomes_musicas[musica];
-  Serial.println("Nome: " + nome_musica);
+  // Serial.println("Nome: " + nome_musica);
 
   if (musica == 0) {
     tempo = 100;    
@@ -245,19 +254,19 @@ void escolher_musica(int musica)
 
   // Decidir a outra resposta
   int nome_errado = random(0,quantidade_musicas);
-  Serial.println("Nome Errado Inicial: " + String(nome_errado));
+  // Serial.println("Nome Errado Inicial: " + String(nome_errado));
 
   while (nome_errado == musica){
     nome_errado = random(0,quantidade_musicas);
   }
   // Decidir se a resposta fica na posição a ou b
 
-  Serial.println("Pos Nome Errado: " + String(nome_errado));
-  Serial.println("Nome Errado: " + nomes_musicas[nome_errado]);
+  // Serial.println("Pos Nome Errado: " + String(nome_errado));
+  // Serial.println("Nome Errado: " + nomes_musicas[nome_errado]);
 
   int pos = random(0,2);
 
-  if (pos == 1){
+  if (pos == 0){
     escrever("a) " + nome_musica,0);
     escrever("b) " + nomes_musicas[nome_errado],1);
     // escrever("b) Sonic",1);
@@ -267,6 +276,46 @@ void escolher_musica(int musica)
   }  
 
   tocar_musica(notes, melody, tempo, nome_musica);
+
+  Serial.println("Saiu de tocar Musica");
+  // read the state of the pushbutton value:
+  buttonAState = digitalRead(buttonAPin);
+
+  // Serial.println("Estado inicial de A: " + String(buttonAState));
+  buttonBState = digitalRead(buttonBPin);
+
+  // Serial.println("Estado inicial de B: " + String(buttonBState));
+
+  while (buttonAState == LOW and buttonBState == LOW){
+    // Serial.println("Estado de A: " + String(buttonAState));
+    buttonAState = digitalRead(buttonAPin);
+    buttonBState = digitalRead(buttonBPin);
+  }
+
+  int pos_pressed = 0;
+  if (buttonAState == HIGH){
+    Serial.println("Apertou o botão A");
+    pos_pressed = 0;
+  } else{
+    Serial.println("Apertou o botão B");
+    pos_pressed = 1;
+  }
+
+  if (pos == pos_pressed){
+    Serial.println("Parabéns, você acertou!!!");
+    lcd.clear();
+    escrever("Parabens, voce",0);
+    escrever("acertou!!!",1);
+  } else{
+    Serial.println("Que pena, você errou :(");
+    lcd.clear();
+    escrever("Que pena, voce",0);
+    escrever("errou :(",1);
+  }
+
+  delay(5000);
+
+
   
 }
 
