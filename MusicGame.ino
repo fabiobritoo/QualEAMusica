@@ -209,6 +209,7 @@ void loop()
   escolher_musica(numero_musica); 
 
   delay(2000); 
+  lcd.clear();
 
 }
 
