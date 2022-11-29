@@ -100,7 +100,7 @@
 #define linhas    2
 
 
-const int quantidade_notas = 50;
+const int quantidade_notas = 100;
 const int buttonAPin = 4;
 const int buttonBPin = 2;
 
@@ -124,8 +124,17 @@ int melody[quantidade_notas];
 
 String nome_musica = "";
 
-String nomes_musicas[] = {"Natal", "Mario","Tetris","Star Wars","Asa Branca","Alt Compadecida"};
-int quantidade_musicas = 6;
+String nomes_musicas[] = {
+  "Natal"
+  , "Mario"
+  ,"Tetris"
+  ,"Star Wars"
+  ,"Asa Branca"
+  ,"Alt Compadecida"
+  ,"Rickroll"
+  ,"Pantera Rosa"
+  };
+int quantidade_musicas = 8;
 int numero_musica = random(0,quantidade_musicas);
 
 int musica_natal[] = { //15 Notas
@@ -139,7 +148,6 @@ int musica_natal[] = { //15 Notas
   NOTE_D5,4, NOTE_G5,4, NOTE_E5,4
 
 };  
-
 
 int musica_mario[] = { //15 Notas
   NOTE_E5,8, NOTE_E5,8, REST,8, NOTE_E5,8, REST,8, NOTE_C5,8, NOTE_E5,8, //1
@@ -207,6 +215,36 @@ int musica_compadecida[] = { //15 Notas
   NOTE_C4,2
 };  
 
+int musica_rickroll[] = { //15 Notas
+  
+  
+  NOTE_E5,4, NOTE_D5,2, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+  NOTE_FS5,-8, NOTE_FS5,-8, NOTE_E5,-4, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+  NOTE_A5,4, NOTE_CS5,8, NOTE_D5,-8, NOTE_CS5,16, NOTE_B4,8, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+
+  NOTE_D5,4, NOTE_E5,8, NOTE_CS5,-8, NOTE_B4,16, NOTE_A4,4, NOTE_A4,8,  //23
+  NOTE_E5,4, NOTE_D5,2, REST,4,
+  REST,8, NOTE_B4,8, NOTE_D5,8, NOTE_B4,8, NOTE_D5,8, NOTE_E5,4, REST,8,
+  REST,8, NOTE_CS5,8, NOTE_B4,8, NOTE_A4,-4, REST,4,
+  REST,8, NOTE_B4,8, NOTE_B4,8, NOTE_CS5,8, NOTE_D5,8, NOTE_B4,8, NOTE_A4,4,
+  REST,8, NOTE_A5,8, NOTE_A5,8, NOTE_E5,8, NOTE_FS5,8, NOTE_E5,8, NOTE_D5,8,
+};  
+int musica_pantera[] = { //15 Notas
+  
+  REST,2, REST,4, REST,8, NOTE_DS4,8, 
+  NOTE_E4,-4, REST,8, NOTE_FS4,8, NOTE_G4,-4, REST,8, NOTE_DS4,8,
+  NOTE_E4,-8, NOTE_FS4,8,  NOTE_G4,-8, NOTE_C5,8, NOTE_B4,-8, NOTE_E4,8, NOTE_G4,-8, NOTE_B4,8,   
+  NOTE_AS4,2, NOTE_A4,-16, NOTE_G4,-16, NOTE_E4,-16, NOTE_D4,-16, 
+  NOTE_E4,2, REST,4, REST,8, NOTE_DS4,4,
+
+  NOTE_E4,-4, REST,8, NOTE_FS4,8, NOTE_G4,-4, REST,8, NOTE_DS4,8,
+  NOTE_E4,-8, NOTE_FS4,8,  NOTE_G4,-8, NOTE_C5,8, NOTE_B4,-8, NOTE_G4,8, NOTE_B4,-8, NOTE_E5,8,
+  NOTE_DS5,1,   
+  NOTE_D5,2, REST,4, REST,8, NOTE_DS4,8, 
+  NOTE_E4,-4, REST,8, NOTE_FS4,8, NOTE_G4,-4, REST,8, NOTE_DS4,8,
+  NOTE_E4,-8, NOTE_FS4,8,  NOTE_G4,-8, NOTE_C5,8, NOTE_B4,-8, NOTE_E4,8, NOTE_G4,-8, NOTE_B4,8,
+};  
+
 int buzzer = 8;
 
 LiquidCrystal_I2C lcd(endereco, colunas, linhas);
@@ -242,7 +280,7 @@ void loop()
   // Serial.println("Entrou no loop");
   numero_musica = random(0,quantidade_musicas);
   // Serial.println("Musica: " + String(numero_musica));
-  escolher_musica(numero_musica); 
+  escolher_musica(7); 
 
   delay(2000); 
   lcd.clear();
@@ -283,6 +321,14 @@ void escolher_musica(int musica)
   else if (musica == 5) {
     tempo = 110;    
     copy(musica_compadecida, melody, quantidade_notas);      
+  }
+  else if (musica == 6) {
+    tempo = 114;    
+    copy(musica_rickroll, melody, quantidade_notas);      
+  }
+  else if (musica == 7) {
+    tempo = 120;    
+    copy(musica_pantera, melody, quantidade_notas);      
   }
   else { 
     tempo = 150;    
