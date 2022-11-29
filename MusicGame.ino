@@ -100,7 +100,7 @@
 #define linhas    2
 
 
-const int quantidade_notas = 100;
+const int quantidade_notas = 50;
 const int buttonAPin = 4;
 const int buttonBPin = 2;
 
@@ -124,24 +124,20 @@ int melody[quantidade_notas];
 
 String nome_musica = "";
 
-String nomes_musicas[] = {"Sonic", "Mario","Tetris"};
-int quantidade_musicas = 3;
+String nomes_musicas[] = {"Natal", "Mario","Tetris","Star Wars"};
+int quantidade_musicas = 4;
 int numero_musica = random(0,quantidade_musicas);
 
-int musica_sonic[] = { //15 Notas
-  REST,2, NOTE_D5,8, NOTE_B4,4, NOTE_D5,8, //1
-  NOTE_CS5,4, NOTE_D5,8, NOTE_CS5,4, NOTE_A4,2, 
-  REST,8, NOTE_A4,8, NOTE_FS5,8, NOTE_E5,4, NOTE_D5,8,
-  NOTE_CS5,4, NOTE_D5,8, NOTE_CS5,4, NOTE_A4,2, 
-  REST,4, NOTE_D5,8, NOTE_B4,4, NOTE_D5,8,
-  NOTE_CS5,4, NOTE_D5,8, NOTE_CS5,4, NOTE_A4,2, 
+int musica_natal[] = { //15 Notas
+  NOTE_C5,4, //1
+  NOTE_F5,4, NOTE_F5,8, NOTE_G5,8, NOTE_F5,8, NOTE_E5,8,
+  NOTE_D5,4, NOTE_D5,4, NOTE_D5,4,
+  NOTE_G5,4, NOTE_G5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F5,8,
+  NOTE_E5,4, NOTE_C5,4, NOTE_C5,4,
+  NOTE_A5,4, NOTE_A5,8, NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8,
+  NOTE_F5,4, NOTE_D5,4, NOTE_C5,8, NOTE_C5,8,
+  NOTE_D5,4, NOTE_G5,4, NOTE_E5,4
 
-  REST,8, NOTE_B4,8, NOTE_B4,8, NOTE_G4,4, NOTE_B4,8, //7
-  NOTE_A4,4, NOTE_B4,8, NOTE_A4,4, NOTE_D4,2,
-  REST,4, NOTE_D5,8, NOTE_B4,4, NOTE_D5,8,
-  NOTE_CS5,4, NOTE_D5,8, NOTE_CS5,4, NOTE_A4,2, 
-  REST,8, NOTE_A4,8, NOTE_FS5,8, NOTE_E5,4, NOTE_D5,8,
-  NOTE_CS5,4, NOTE_D5,8, NOTE_CS5,4, NOTE_A4,2
 };  
 
 
@@ -167,17 +163,24 @@ int musica_tetris[] = { //15 Notas
   NOTE_D5, -4,  NOTE_F5,8,  NOTE_A5,4,  NOTE_G5,8,  NOTE_F5,8,
   NOTE_E5, -4,  NOTE_C5,8,  NOTE_E5,4,  NOTE_D5,8,  NOTE_C5,8,
   NOTE_B4, 4,  NOTE_B4,8,  NOTE_C5,8,  NOTE_D5,4,  NOTE_E5,4,
-  NOTE_C5, 4,  NOTE_A4,4,  NOTE_A4,4, REST, 4,
-
-  NOTE_E5, 4,  NOTE_B4,8,  NOTE_C5,8,  NOTE_D5,4,  NOTE_C5,8,  NOTE_B4,8,
-  NOTE_A4, 4,  NOTE_A4,8,  NOTE_C5,8,  NOTE_E5,4,  NOTE_D5,8,  NOTE_C5,8,
-  NOTE_B4, -4,  NOTE_C5,8,  NOTE_D5,4,  NOTE_E5,4,
-  NOTE_C5, 4,  NOTE_A4,4,  NOTE_A4,8,  NOTE_A4,4,  NOTE_B4,8,  NOTE_C5,8,
-
-  NOTE_D5, -4,  NOTE_F5,8,  NOTE_A5,4,  NOTE_G5,8,  NOTE_F5,8,
-  NOTE_E5, -4,  NOTE_C5,8,  NOTE_E5,4,  NOTE_D5,8,  NOTE_C5,8,
-  NOTE_B4, 4,  NOTE_B4,8,  NOTE_C5,8,  NOTE_D5,4,  NOTE_E5,4,
   NOTE_C5, 4,  NOTE_A4,4,  NOTE_A4,4, REST, 4
+
+};  
+
+int musica_star_wars[] = { //15 Notas
+  NOTE_A4,-4, NOTE_A4,-4, NOTE_A4,16, NOTE_A4,16, NOTE_A4,16, NOTE_A4,16, NOTE_F4,8, REST,8,
+  NOTE_A4,-4, NOTE_A4,-4, NOTE_A4,16, NOTE_A4,16, NOTE_A4,16, NOTE_A4,16, NOTE_F4,8, REST,8,
+  NOTE_A4,4, NOTE_A4,4, NOTE_A4,4, NOTE_F4,-8, NOTE_C5,16,
+
+  NOTE_A4,4, NOTE_F4,-8, NOTE_C5,16, NOTE_A4,2,//4
+  NOTE_E5,4, NOTE_E5,4, NOTE_E5,4, NOTE_F5,-8, NOTE_C5,16,
+  NOTE_A4,4, NOTE_F4,-8, NOTE_C5,16, NOTE_A4,2,
+  
+  NOTE_A5,4, NOTE_A4,-8, NOTE_A4,16, NOTE_A5,4, NOTE_GS5,-8, NOTE_G5,16, //7 
+  NOTE_DS5,16, NOTE_D5,16, NOTE_DS5,8, REST,8, NOTE_A4,8, NOTE_DS5,4, NOTE_D5,-8, NOTE_CS5,16,
+
+  NOTE_C5,16, NOTE_B4,16, NOTE_C5,16, REST,8, NOTE_F4,8, NOTE_GS4,4, NOTE_F4,-8, NOTE_A4,-16,//9
+  NOTE_C5,4, NOTE_A4,-8, NOTE_C5,16, NOTE_E5,2
 };  
 
 int buzzer = 8;
@@ -235,7 +238,7 @@ void escolher_musica(int musica)
 
   if (musica == 0) {
     tempo = 100;    
-    copy(musica_sonic, melody, quantidade_notas);      
+    copy(musica_natal, melody, quantidade_notas);      
   }
   else if (musica == 1) {
     tempo = 150;    
@@ -243,6 +246,10 @@ void escolher_musica(int musica)
   }
   else if (musica == 2) {
     tempo = 144;    
+    copy(musica_tetris, melody, quantidade_notas);      
+  }
+  else if (musica == 3) {
+    tempo = 120;    
     copy(musica_tetris, melody, quantidade_notas);      
   }
   else { 
