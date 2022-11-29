@@ -127,14 +127,16 @@ String nome_musica = "";
 String nomes_musicas[] = {
   "Natal"
   , "Mario"
-  ,"Tetris"
-  ,"Star Wars"
-  ,"Asa Branca"
-  ,"Alt Compadecida"
-  ,"Rickroll"
-  ,"Pantera Rosa"
+  , "Tetris"
+  , "Star Wars"
+  , "Asa Branca"
+  , "Alt Compadecida"
+  , "Rickroll"
+  , "Pantera Rosa"
+  , "A-ha"
+  , "Keyboard Cat"
   };
-int quantidade_musicas = 8;
+int quantidade_musicas = 10;
 int numero_musica = random(0,quantidade_musicas);
 
 int musica_natal[] = { //15 Notas
@@ -176,19 +178,19 @@ int musica_tetris[] = { //15 Notas
 };  
 
 int musica_star_wars[] = { //15 Notas
-  NOTE_A4,-4, NOTE_A4,-4, NOTE_A4,16, NOTE_A4,16, NOTE_A4,16, NOTE_A4,16, NOTE_F4,8, REST,8,
-  NOTE_A4,-4, NOTE_A4,-4, NOTE_A4,16, NOTE_A4,16, NOTE_A4,16, NOTE_A4,16, NOTE_F4,8, REST,8,
-  NOTE_A4,4, NOTE_A4,4, NOTE_A4,4, NOTE_F4,-8, NOTE_C5,16,
-
-  NOTE_A4,4, NOTE_F4,-8, NOTE_C5,16, NOTE_A4,2,//4
-  NOTE_E5,4, NOTE_E5,4, NOTE_E5,4, NOTE_F5,-8, NOTE_C5,16,
-  NOTE_A4,4, NOTE_F4,-8, NOTE_C5,16, NOTE_A4,2,
+  NOTE_AS4,8, NOTE_AS4,8, NOTE_AS4,8,//1
+  NOTE_F5,2, NOTE_C6,2,
+  NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F6,2, NOTE_C6,4,  
+  NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F6,2, NOTE_C6,4,  
+  NOTE_AS5,8, NOTE_A5,8, NOTE_AS5,8, NOTE_G5,2, NOTE_C5,8, NOTE_C5,8, NOTE_C5,8,
+  NOTE_F5,2, NOTE_C6,2,
+  NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F6,2, NOTE_C6,4,  
   
-  NOTE_A5,4, NOTE_A4,-8, NOTE_A4,16, NOTE_A5,4, NOTE_GS5,-8, NOTE_G5,16, //7 
-  NOTE_DS5,16, NOTE_D5,16, NOTE_DS5,8, REST,8, NOTE_A4,8, NOTE_DS5,4, NOTE_D5,-8, NOTE_CS5,16,
-
-  NOTE_C5,16, NOTE_B4,16, NOTE_C5,16, REST,8, NOTE_F4,8, NOTE_GS4,4, NOTE_F4,-8, NOTE_A4,-16,//9
-  NOTE_C5,4, NOTE_A4,-8, NOTE_C5,16, NOTE_E5,2
+  NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F6,2, NOTE_C6,4, //8  
+  NOTE_AS5,8, NOTE_A5,8, NOTE_AS5,8, NOTE_G5,2, NOTE_C5,-8, NOTE_C5,16, 
+  NOTE_D5,-4, NOTE_D5,8, NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F5,8,
+  NOTE_F5,8, NOTE_G5,8, NOTE_A5,8, NOTE_G5,4, NOTE_D5,8, NOTE_E5,4,NOTE_C5,-8, NOTE_C5,16,
+  NOTE_D5,-4, NOTE_D5,8, NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F5,8,
 };  
 
 int musica_asa_branca[] = { //15 Notas
@@ -244,6 +246,34 @@ int musica_pantera[] = { //15 Notas
   NOTE_E4,-4, REST,8, NOTE_FS4,8, NOTE_G4,-4, REST,8, NOTE_DS4,8,
   NOTE_E4,-8, NOTE_FS4,8,  NOTE_G4,-8, NOTE_C5,8, NOTE_B4,-8, NOTE_E4,8, NOTE_G4,-8, NOTE_B4,8,
 };  
+int musica_aha[] = { //15 Notas
+  
+  NOTE_FS5,8, NOTE_FS5,8,NOTE_D5,8, NOTE_B4,8, REST,8, NOTE_B4,8, REST,8, NOTE_E5,8, 
+  REST,8, NOTE_E5,8, REST,8, NOTE_E5,8, NOTE_GS5,8, NOTE_GS5,8, NOTE_A5,8, NOTE_B5,8,
+  NOTE_A5,8, NOTE_A5,8, NOTE_A5,8, NOTE_E5,8, REST,8, NOTE_D5,8, REST,8, NOTE_FS5,8, 
+  REST,8, NOTE_FS5,8, REST,8, NOTE_FS5,8, NOTE_E5,8, NOTE_E5,8, NOTE_FS5,8, NOTE_E5,8,
+  NOTE_FS5,8, NOTE_FS5,8,NOTE_D5,8, NOTE_B4,8, REST,8, NOTE_B4,8, REST,8, NOTE_E5,8,
+};  
+int musica_keyboard_cat[] = { //15 Notas  
+  
+    NOTE_C4,4, NOTE_E4,4, NOTE_G4,4, NOTE_E4,4, 
+    NOTE_C4,4, NOTE_E4,8, NOTE_G4,-4, NOTE_E4,4,
+    NOTE_A3,4, NOTE_C4,4, NOTE_E4,4, NOTE_C4,4,
+    NOTE_A3,4, NOTE_C4,8, NOTE_E4,-4, NOTE_C4,4,
+    NOTE_G3,4, NOTE_B3,4, NOTE_D4,4, NOTE_B3,4,
+    NOTE_G3,4, NOTE_B3,8, NOTE_D4,-4, NOTE_B3,4,
+
+    NOTE_G3,4, NOTE_G3,8, NOTE_G3,-4, NOTE_G3,8, NOTE_G3,4, 
+    NOTE_G3,4, NOTE_G3,4, NOTE_G3,8, NOTE_G3,4,
+    NOTE_C4,4, NOTE_E4,4, NOTE_G4,4, NOTE_E4,4, 
+    NOTE_C4,4, NOTE_E4,8, NOTE_G4,-4, NOTE_E4,4,
+    NOTE_A3,4, NOTE_C4,4, NOTE_E4,4, NOTE_C4,4,
+    NOTE_A3,4, NOTE_C4,8, NOTE_E4,-4, NOTE_C4,4,
+    NOTE_G3,4, NOTE_B3,4, NOTE_D4,4, NOTE_B3,4,
+    NOTE_G3,4, NOTE_B3,8, NOTE_D4,-4, NOTE_B3,4,
+
+    NOTE_G3,-1, 
+};  
 
 int buzzer = 8;
 
@@ -280,7 +310,7 @@ void loop()
   // Serial.println("Entrou no loop");
   numero_musica = random(0,quantidade_musicas);
   // Serial.println("Musica: " + String(numero_musica));
-  escolher_musica(7); 
+  escolher_musica(numero_musica); 
 
   delay(2000); 
   lcd.clear();
@@ -329,6 +359,14 @@ void escolher_musica(int musica)
   else if (musica == 7) {
     tempo = 120;    
     copy(musica_pantera, melody, quantidade_notas);      
+  }
+  else if (musica == 8) {
+    tempo = 140;    
+    copy(musica_aha, melody, quantidade_notas);      
+  }
+  else if (musica == 9) {
+    tempo = 160;    
+    copy(musica_keyboard_cat, melody, quantidade_notas);      
   }
   else { 
     tempo = 150;    
