@@ -100,7 +100,7 @@
 #define linhas    2
 
 
-const int quantidade_notas = 100;
+const int quantidade_notas = 50;
 const int buttonAPin = 4;
 const int buttonBPin = 2;
 
@@ -108,14 +108,11 @@ const int buttonBPin = 2;
 int buttonAState = 0;         // variable for reading the pushbutton status
 int buttonBState = 0;         // variable for reading the pushbutton status
 
-
-
 // Variáveis da Música
 int notes = 0;
 // this calculates the duration of a whole note in ms
 int wholenote = 0;
 int divider = 0, noteDuration = 0;
-
 
 int seconds = 0;
 int tempo = 100;
@@ -136,6 +133,7 @@ String nomes_musicas[] = {
   , "A-ha"
   , "Keyboard Cat"
   };
+
 int quantidade_musicas = 10;
 int numero_musica = random(0,quantidade_musicas);
 
@@ -157,11 +155,11 @@ int musica_mario[] = { //15 Notas
   NOTE_C5,-4, NOTE_G4,8, REST,4, NOTE_E4,-4, // 3
   NOTE_A4,4, NOTE_B4,4, NOTE_AS4,8, NOTE_A4,4,
   NOTE_G4,-8, NOTE_E5,-8, NOTE_G5,-8, NOTE_A5,4, NOTE_F5,8, NOTE_G5,8,
-  REST,8, NOTE_E5,4,NOTE_C5,8, NOTE_D5,8, NOTE_B4,-4,
-  NOTE_C5,-4, NOTE_G4,8, REST,4, NOTE_E4,-4, // repeats from 3
-  NOTE_A4,4, NOTE_B4,4, NOTE_AS4,8, NOTE_A4,4,
-  NOTE_G4,-8, NOTE_E5,-8, NOTE_G5,-8, NOTE_A5,4, NOTE_F5,8, NOTE_G5,8,
-  REST,8, NOTE_E5,4,NOTE_C5,8, NOTE_D5,8, NOTE_B4,-4
+  // REST,8, NOTE_E5,4,NOTE_C5,8, NOTE_D5,8, NOTE_B4,-4,
+  // NOTE_C5,-4, NOTE_G4,8, REST,4, NOTE_E4,-4, // repeats from 3
+  // NOTE_A4,4, NOTE_B4,4, NOTE_AS4,8, NOTE_A4,4,
+  // NOTE_G4,-8, NOTE_E5,-8, NOTE_G5,-8, NOTE_A5,4, NOTE_F5,8, NOTE_G5,8,
+  // REST,8, NOTE_E5,4,NOTE_C5,8, NOTE_D5,8, NOTE_B4,-4
 };  
 
 int musica_tetris[] = { //15 Notas
@@ -170,10 +168,10 @@ int musica_tetris[] = { //15 Notas
   NOTE_B4, -4,  NOTE_C5,8,  NOTE_D5,4,  NOTE_E5,4,
   NOTE_C5, 4,  NOTE_A4,4,  NOTE_A4,8,  NOTE_A4,4,  NOTE_B4,8,  NOTE_C5,8,
 
-  NOTE_D5, -4,  NOTE_F5,8,  NOTE_A5,4,  NOTE_G5,8,  NOTE_F5,8,
-  NOTE_E5, -4,  NOTE_C5,8,  NOTE_E5,4,  NOTE_D5,8,  NOTE_C5,8,
-  NOTE_B4, 4,  NOTE_B4,8,  NOTE_C5,8,  NOTE_D5,4,  NOTE_E5,4,
-  NOTE_C5, 4,  NOTE_A4,4,  NOTE_A4,4, REST, 4
+  // NOTE_D5, -4,  NOTE_F5,8,  NOTE_A5,4,  NOTE_G5,8,  NOTE_F5,8,
+  // NOTE_E5, -4,  NOTE_C5,8,  NOTE_E5,4,  NOTE_D5,8,  NOTE_C5,8,
+  // NOTE_B4, 4,  NOTE_B4,8,  NOTE_C5,8,  NOTE_D5,4,  NOTE_E5,4,
+  // NOTE_C5, 4,  NOTE_A4,4,  NOTE_A4,4, REST, 4
 
 };  
 
@@ -186,11 +184,11 @@ int musica_star_wars[] = { //15 Notas
   NOTE_F5,2, NOTE_C6,2,
   NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F6,2, NOTE_C6,4,  
   
-  NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F6,2, NOTE_C6,4, //8  
-  NOTE_AS5,8, NOTE_A5,8, NOTE_AS5,8, NOTE_G5,2, NOTE_C5,-8, NOTE_C5,16, 
-  NOTE_D5,-4, NOTE_D5,8, NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F5,8,
-  NOTE_F5,8, NOTE_G5,8, NOTE_A5,8, NOTE_G5,4, NOTE_D5,8, NOTE_E5,4,NOTE_C5,-8, NOTE_C5,16,
-  NOTE_D5,-4, NOTE_D5,8, NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F5,8,
+  // NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F6,2, NOTE_C6,4, //8  
+  // NOTE_AS5,8, NOTE_A5,8, NOTE_AS5,8, NOTE_G5,2, NOTE_C5,-8, NOTE_C5,16, 
+  // NOTE_D5,-4, NOTE_D5,8, NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F5,8,
+  // NOTE_F5,8, NOTE_G5,8, NOTE_A5,8, NOTE_G5,4, NOTE_D5,8, NOTE_E5,4,NOTE_C5,-8, NOTE_C5,16,
+  // NOTE_D5,-4, NOTE_D5,8, NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F5,8,
 };  
 
 int musica_asa_branca[] = { //15 Notas
@@ -199,9 +197,9 @@ int musica_asa_branca[] = { //15 Notas
   NOTE_C5,4, NOTE_C5,2, NOTE_G4,8, NOTE_A4,8,
   NOTE_B4,4, NOTE_D5,4, NOTE_D5,4, NOTE_C5,4,
 
-  NOTE_B4,2, REST,8, NOTE_G4,8, NOTE_G4,8, NOTE_A4,8,
-  NOTE_B4,4, NOTE_D5,4, REST,8, NOTE_D5,8, NOTE_C5,8, NOTE_B4,8,
-  NOTE_G4,4, NOTE_C5,4, REST,8, NOTE_C5,8, NOTE_B4,8, NOTE_A4,8
+  // NOTE_B4,2, REST,8, NOTE_G4,8, NOTE_G4,8, NOTE_A4,8,
+  // NOTE_B4,4, NOTE_D5,4, REST,8, NOTE_D5,8, NOTE_C5,8, NOTE_B4,8,
+  // NOTE_G4,4, NOTE_C5,4, REST,8, NOTE_C5,8, NOTE_B4,8, NOTE_A4,8
 };  
 
 int musica_compadecida[] = { //15 Notas
@@ -211,10 +209,10 @@ int musica_compadecida[] = { //15 Notas
   NOTE_C5,4, NOTE_G4,8, NOTE_AS4,4, NOTE_A4,8,
   NOTE_G4,2,
   
-  NOTE_C5,4, NOTE_G4,8, NOTE_AS4,4, NOTE_A4,8,
-  NOTE_G4,16, NOTE_C4,8, NOTE_C4,16, NOTE_G4,16, NOTE_G4,8, NOTE_G4,16,
-  NOTE_F4,8, NOTE_E4,8, NOTE_D4,8, NOTE_C4,8,
-  NOTE_C4,2
+  // NOTE_C5,4, NOTE_G4,8, NOTE_AS4,4, NOTE_A4,8,
+  // NOTE_G4,16, NOTE_C4,8, NOTE_C4,16, NOTE_G4,16, NOTE_G4,8, NOTE_G4,16,
+  // NOTE_F4,8, NOTE_E4,8, NOTE_D4,8, NOTE_C4,8,
+  // NOTE_C4,2
 };  
 
 int musica_rickroll[] = { //15 Notas
@@ -226,10 +224,10 @@ int musica_rickroll[] = { //15 Notas
 
   NOTE_D5,4, NOTE_E5,8, NOTE_CS5,-8, NOTE_B4,16, NOTE_A4,4, NOTE_A4,8,  //23
   NOTE_E5,4, NOTE_D5,2, REST,4,
-  REST,8, NOTE_B4,8, NOTE_D5,8, NOTE_B4,8, NOTE_D5,8, NOTE_E5,4, REST,8,
-  REST,8, NOTE_CS5,8, NOTE_B4,8, NOTE_A4,-4, REST,4,
-  REST,8, NOTE_B4,8, NOTE_B4,8, NOTE_CS5,8, NOTE_D5,8, NOTE_B4,8, NOTE_A4,4,
-  REST,8, NOTE_A5,8, NOTE_A5,8, NOTE_E5,8, NOTE_FS5,8, NOTE_E5,8, NOTE_D5,8,
+  // REST,8, NOTE_B4,8, NOTE_D5,8, NOTE_B4,8, NOTE_D5,8, NOTE_E5,4, REST,8,
+  // REST,8, NOTE_CS5,8, NOTE_B4,8, NOTE_A4,-4, REST,4,
+  // REST,8, NOTE_B4,8, NOTE_B4,8, NOTE_CS5,8, NOTE_D5,8, NOTE_B4,8, NOTE_A4,4,
+  // REST,8, NOTE_A5,8, NOTE_A5,8, NOTE_E5,8, NOTE_FS5,8, NOTE_E5,8, NOTE_D5,8,
 };  
 int musica_pantera[] = { //15 Notas
   
@@ -239,20 +237,20 @@ int musica_pantera[] = { //15 Notas
   NOTE_AS4,2, NOTE_A4,-16, NOTE_G4,-16, NOTE_E4,-16, NOTE_D4,-16, 
   NOTE_E4,2, REST,4, REST,8, NOTE_DS4,4,
 
-  NOTE_E4,-4, REST,8, NOTE_FS4,8, NOTE_G4,-4, REST,8, NOTE_DS4,8,
-  NOTE_E4,-8, NOTE_FS4,8,  NOTE_G4,-8, NOTE_C5,8, NOTE_B4,-8, NOTE_G4,8, NOTE_B4,-8, NOTE_E5,8,
-  NOTE_DS5,1,   
-  NOTE_D5,2, REST,4, REST,8, NOTE_DS4,8, 
-  NOTE_E4,-4, REST,8, NOTE_FS4,8, NOTE_G4,-4, REST,8, NOTE_DS4,8,
-  NOTE_E4,-8, NOTE_FS4,8,  NOTE_G4,-8, NOTE_C5,8, NOTE_B4,-8, NOTE_E4,8, NOTE_G4,-8, NOTE_B4,8,
+  // NOTE_E4,-4, REST,8, NOTE_FS4,8, NOTE_G4,-4, REST,8, NOTE_DS4,8,
+  // NOTE_E4,-8, NOTE_FS4,8,  NOTE_G4,-8, NOTE_C5,8, NOTE_B4,-8, NOTE_G4,8, NOTE_B4,-8, NOTE_E5,8,
+  // NOTE_DS5,1,   
+  // NOTE_D5,2, REST,4, REST,8, NOTE_DS4,8, 
+  // NOTE_E4,-4, REST,8, NOTE_FS4,8, NOTE_G4,-4, REST,8, NOTE_DS4,8,
+  // NOTE_E4,-8, NOTE_FS4,8,  NOTE_G4,-8, NOTE_C5,8, NOTE_B4,-8, NOTE_E4,8, NOTE_G4,-8, NOTE_B4,8,
 };  
 int musica_aha[] = { //15 Notas
   
   NOTE_FS5,8, NOTE_FS5,8,NOTE_D5,8, NOTE_B4,8, REST,8, NOTE_B4,8, REST,8, NOTE_E5,8, 
   REST,8, NOTE_E5,8, REST,8, NOTE_E5,8, NOTE_GS5,8, NOTE_GS5,8, NOTE_A5,8, NOTE_B5,8,
-  NOTE_A5,8, NOTE_A5,8, NOTE_A5,8, NOTE_E5,8, REST,8, NOTE_D5,8, REST,8, NOTE_FS5,8, 
-  REST,8, NOTE_FS5,8, REST,8, NOTE_FS5,8, NOTE_E5,8, NOTE_E5,8, NOTE_FS5,8, NOTE_E5,8,
-  NOTE_FS5,8, NOTE_FS5,8,NOTE_D5,8, NOTE_B4,8, REST,8, NOTE_B4,8, REST,8, NOTE_E5,8,
+  // NOTE_A5,8, NOTE_A5,8, NOTE_A5,8, NOTE_E5,8, REST,8, NOTE_D5,8, REST,8, NOTE_FS5,8, 
+  // REST,8, NOTE_FS5,8, REST,8, NOTE_FS5,8, NOTE_E5,8, NOTE_E5,8, NOTE_FS5,8, NOTE_E5,8,
+  // NOTE_FS5,8, NOTE_FS5,8,NOTE_D5,8, NOTE_B4,8, REST,8, NOTE_B4,8, REST,8, NOTE_E5,8,
 };  
 int musica_keyboard_cat[] = { //15 Notas  
   
@@ -263,16 +261,16 @@ int musica_keyboard_cat[] = { //15 Notas
     NOTE_G3,4, NOTE_B3,4, NOTE_D4,4, NOTE_B3,4,
     NOTE_G3,4, NOTE_B3,8, NOTE_D4,-4, NOTE_B3,4,
 
-    NOTE_G3,4, NOTE_G3,8, NOTE_G3,-4, NOTE_G3,8, NOTE_G3,4, 
-    NOTE_G3,4, NOTE_G3,4, NOTE_G3,8, NOTE_G3,4,
-    NOTE_C4,4, NOTE_E4,4, NOTE_G4,4, NOTE_E4,4, 
-    NOTE_C4,4, NOTE_E4,8, NOTE_G4,-4, NOTE_E4,4,
-    NOTE_A3,4, NOTE_C4,4, NOTE_E4,4, NOTE_C4,4,
-    NOTE_A3,4, NOTE_C4,8, NOTE_E4,-4, NOTE_C4,4,
-    NOTE_G3,4, NOTE_B3,4, NOTE_D4,4, NOTE_B3,4,
-    NOTE_G3,4, NOTE_B3,8, NOTE_D4,-4, NOTE_B3,4,
+    // NOTE_G3,4, NOTE_G3,8, NOTE_G3,-4, NOTE_G3,8, NOTE_G3,4, 
+    // NOTE_G3,4, NOTE_G3,4, NOTE_G3,8, NOTE_G3,4,
+    // NOTE_C4,4, NOTE_E4,4, NOTE_G4,4, NOTE_E4,4, 
+    // NOTE_C4,4, NOTE_E4,8, NOTE_G4,-4, NOTE_E4,4,
+    // NOTE_A3,4, NOTE_C4,4, NOTE_E4,4, NOTE_C4,4,
+    // NOTE_A3,4, NOTE_C4,8, NOTE_E4,-4, NOTE_C4,4,
+    // NOTE_G3,4, NOTE_B3,4, NOTE_D4,4, NOTE_B3,4,
+    // NOTE_G3,4, NOTE_B3,8, NOTE_D4,-4, NOTE_B3,4,
 
-    NOTE_G3,-1, 
+    // NOTE_G3,-1, 
 };  
 
 int buzzer = 8;
@@ -286,8 +284,7 @@ void setup()
   pinMode(buttonAPin, INPUT);
   pinMode(buttonBPin, INPUT);
   
-  // Intro
-  
+  // Intro 
   
   lcd.init();
   lcd.backlight();
@@ -299,17 +296,15 @@ void setup()
   lcd.clear();
   
   Serial.println("Inicio");
-  //Inicio do Jogo
-  // escolher_musica(random(2)); 
+
     
   
 }
 
 void loop()
 { 
-  // Serial.println("Entrou no loop");
+
   numero_musica = random(0,quantidade_musicas);
-  // Serial.println("Musica: " + String(numero_musica));
   escolher_musica(numero_musica); 
 
   delay(2000); 
@@ -324,9 +319,7 @@ void copy(int* src, int* dst, int len) {
 
 void escolher_musica(int musica)
 {   
-  // Serial.println("Entrou no escolher musica");
   nome_musica = nomes_musicas[musica];
-  // Serial.println("Nome: " + nome_musica);
 
   if (musica == 0) {
     tempo = 100;    
@@ -377,22 +370,17 @@ void escolher_musica(int musica)
 
   // Decidir a outra resposta
   int nome_errado = random(0,quantidade_musicas);
-  // Serial.println("Nome Errado Inicial: " + String(nome_errado));
 
   while (nome_errado == musica){
     nome_errado = random(0,quantidade_musicas);
   }
   // Decidir se a resposta fica na posição a ou b
 
-  // Serial.println("Pos Nome Errado: " + String(nome_errado));
-  // Serial.println("Nome Errado: " + nomes_musicas[nome_errado]);
-
   int pos = random(0,2);
 
   if (pos == 0){
     escrever("a) " + nome_musica,0);
     escrever("b) " + nomes_musicas[nome_errado],1);
-    // escrever("b) Sonic",1);
   } else{
     escrever("a) " + nomes_musicas[nome_errado],0);
     escrever("b) " + nome_musica,1);
@@ -403,40 +391,33 @@ void escolher_musica(int musica)
   Serial.println("Saiu de tocar Musica");
   // read the state of the pushbutton value:
   buttonAState = digitalRead(buttonAPin);
-
-  // Serial.println("Estado inicial de A: " + String(buttonAState));
   buttonBState = digitalRead(buttonBPin);
 
-  // Serial.println("Estado inicial de B: " + String(buttonBState));
 
   while (buttonAState == LOW and buttonBState == LOW){
-    // Serial.println("Estado de A: " + String(buttonAState));
+
     buttonAState = digitalRead(buttonAPin);
     buttonBState = digitalRead(buttonBPin);
   }
 
   int pos_pressed = 0;
   if (buttonAState == HIGH){
-    Serial.println("Apertou o botão A");
     pos_pressed = 0;
   } else{
-    Serial.println("Apertou o botão B");
     pos_pressed = 1;
   }
 
   if (pos == pos_pressed){
-    Serial.println("Parabéns, você acertou!!!");
     lcd.clear();
     escrever("Parabens, voce",0);
     escrever("acertou!!!",1);
   } else{
-    Serial.println("Que pena, você errou :(");
     lcd.clear();
     escrever("Que pena, voce",0);
     escrever("errou :(",1);
   }
 
-  delay(5000);
+  delay(3000);
 
 
   
@@ -444,12 +425,6 @@ void escolher_musica(int musica)
 
 void tocar_musica(int notes, int melody[], int tempo, String nome_musica)
 {
- 
-  Serial.println("Nome:" + nome_musica);
-  /*Serial.println("Melodia Inicial:" + String(melody[0])); 
-  Serial.println("Tempo:" + String(tempo));
-  Serial.println("Nome:" + nome_musica);
-  Serial.println("Notes:" + String(notes));  */
 
   wholenote = (60000 * 4) / tempo;
   divider = 0;
@@ -486,7 +461,7 @@ void escrever (String text, int pos)
 {
   lcd.setCursor(0, pos);
   lcd.print(text);
-  delay(1000);
+  delay(500);
 }
 
 void piscar_tela(int wait_time, int times)
