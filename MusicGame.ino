@@ -124,8 +124,8 @@ int melody[quantidade_notas];
 
 String nome_musica = "";
 
-String nomes_musicas[] = {"Natal", "Mario","Tetris","Star Wars","Asa Branca"};
-int quantidade_musicas = 5;
+String nomes_musicas[] = {"Natal", "Mario","Tetris","Star Wars","Asa Branca","Alt Compadecida"};
+int quantidade_musicas = 6;
 int numero_musica = random(0,quantidade_musicas);
 
 int musica_natal[] = { //15 Notas
@@ -182,6 +182,7 @@ int musica_star_wars[] = { //15 Notas
   NOTE_C5,16, NOTE_B4,16, NOTE_C5,16, REST,8, NOTE_F4,8, NOTE_GS4,4, NOTE_F4,-8, NOTE_A4,-16,//9
   NOTE_C5,4, NOTE_A4,-8, NOTE_C5,16, NOTE_E5,2
 };  
+
 int musica_asa_branca[] = { //15 Notas
   
   NOTE_G4,8, NOTE_A4,8, NOTE_B4,4, NOTE_D5,4, NOTE_D5,4, NOTE_B4,4, 
@@ -191,6 +192,19 @@ int musica_asa_branca[] = { //15 Notas
   NOTE_B4,2, REST,8, NOTE_G4,8, NOTE_G4,8, NOTE_A4,8,
   NOTE_B4,4, NOTE_D5,4, REST,8, NOTE_D5,8, NOTE_C5,8, NOTE_B4,8,
   NOTE_G4,4, NOTE_C5,4, REST,8, NOTE_C5,8, NOTE_B4,8, NOTE_A4,8
+};  
+
+int musica_compadecida[] = { //15 Notas
+  
+  NOTE_C5,4, NOTE_G4,8, NOTE_AS4,4, NOTE_A4,8,
+  NOTE_G4,16, NOTE_C4,8, NOTE_C4,16, NOTE_G4,16, NOTE_G4,8, NOTE_G4,16,
+  NOTE_C5,4, NOTE_G4,8, NOTE_AS4,4, NOTE_A4,8,
+  NOTE_G4,2,
+  
+  NOTE_C5,4, NOTE_G4,8, NOTE_AS4,4, NOTE_A4,8,
+  NOTE_G4,16, NOTE_C4,8, NOTE_C4,16, NOTE_G4,16, NOTE_G4,8, NOTE_G4,16,
+  NOTE_F4,8, NOTE_E4,8, NOTE_D4,8, NOTE_C4,8,
+  NOTE_C4,2
 };  
 
 int buzzer = 8;
@@ -265,6 +279,10 @@ void escolher_musica(int musica)
   else if (musica == 4) {
     tempo = 120;    
     copy(musica_asa_branca, melody, quantidade_notas);      
+  }
+  else if (musica == 5) {
+    tempo = 110;    
+    copy(musica_compadecida, melody, quantidade_notas);      
   }
   else { 
     tempo = 150;    
